@@ -24,7 +24,7 @@ import java.text.MessageFormat;
  * range.
  */
 @SuppressWarnings("serial")
-public class UInt64 extends Number implements Comparable<UInt64>
+public final class UInt64 extends Number implements Comparable<UInt64>
 {
    /** Maximum allowed value (when accessed as a long) */
    public static final long MAX_LONG_VALUE = Long.MAX_VALUE;
@@ -41,6 +41,7 @@ public class UInt64 extends Number implements Comparable<UInt64>
     */
    public UInt64(long value)
    {
+      super();
       if (value < MIN_VALUE || value > MAX_LONG_VALUE)
          throw new NumberFormatException(MessageFormat.format(_("{0} is not between {1} and {2}."), new Object[] { value, MIN_VALUE, MAX_LONG_VALUE}));
       this.value = new BigInteger(""+value);
@@ -54,6 +55,7 @@ public class UInt64 extends Number implements Comparable<UInt64>
     */
    public UInt64(long top, long bottom)
    {
+      super();
       BigInteger a = new BigInteger(""+top);
       a = a.shiftLeft(32);
       a = a.add(new BigInteger(""+bottom));
@@ -71,6 +73,7 @@ public class UInt64 extends Number implements Comparable<UInt64>
     */
    public UInt64(BigInteger value)
    {
+      super();
       if (null == value)
          throw new NumberFormatException(MessageFormat.format(_("{0} is not between {1} and {2}."), new Object[] { value, MIN_VALUE, MAX_BIG_VALUE}));
       if (0 > value.compareTo(BigInteger.ZERO))
@@ -87,6 +90,7 @@ public class UInt64 extends Number implements Comparable<UInt64>
     */
    public UInt64(String value)
    {
+      super();
       if (null == value)
          throw new NumberFormatException(MessageFormat.format(_("{0} is not between {1} and {2}."), new Object[] { value, MIN_VALUE, MAX_BIG_VALUE}));
       BigInteger a = new BigInteger(value);
@@ -101,22 +105,30 @@ public class UInt64 extends Number implements Comparable<UInt64>
    /** The value of this as a BigInteger. */
    public BigInteger value() { return value; }
    /** The value of this as a byte. */
+   @Override
    public byte byteValue() { return value.byteValue(); }
    /** The value of this as a double. */
+   @Override
    public double doubleValue() { return value.doubleValue(); }
    /** The value of this as a float. */
+   @Override
    public float floatValue() { return value.floatValue(); }
    /** The value of this as a int. */
+   @Override
    public int intValue() { return value.intValue(); }
    /** The value of this as a long. */
+   @Override
    public long longValue() { return value.longValue(); }
    /** The value of this as a short. */
+   @Override
    public short shortValue(){ return value.shortValue(); }
    /** Test two UInt64s for equality. */
+   @Override
    public boolean equals(Object o)
    {
       return o instanceof UInt64 && this.value.equals(((UInt64) o).value);
    }
+   @Override
    public int hashCode()
    {
       return value.hashCode();
@@ -124,11 +136,13 @@ public class UInt64 extends Number implements Comparable<UInt64>
    /** Compare two UInt32s. 
     * @return 0 if equal, -ve or +ve if they are different. 
     */
+   @Override
    public int compareTo(UInt64 other)
    {
       return this.value.compareTo(other.value);
    }
    /** The value of this as a string. */
+   @Override
    public String toString()
    {
       return value.toString();

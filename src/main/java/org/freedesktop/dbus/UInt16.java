@@ -18,7 +18,7 @@ import java.text.MessageFormat;
  * Class to represent 16-bit unsigned integers.
  */
 @SuppressWarnings("serial")
-public class UInt16 extends Number implements Comparable<UInt16>
+public final class UInt16 extends Number implements Comparable<UInt16>
 {
    /** Maximum possible value. */
    public static final int MAX_VALUE = 65535;
@@ -31,6 +31,7 @@ public class UInt16 extends Number implements Comparable<UInt16>
     */
    public UInt16(int value)
    {
+      super();
       if (value < MIN_VALUE || value > MAX_VALUE)
          throw new NumberFormatException(MessageFormat.format(_("{0} is not between {1} and {2}."), new Object[] { value, MIN_VALUE, MAX_VALUE}));
       this.value = value;
@@ -44,22 +45,30 @@ public class UInt16 extends Number implements Comparable<UInt16>
       this(Integer.parseInt(value));
    }
    /** The value of this as a byte. */
+   @Override
    public byte byteValue() { return (byte) value; }
    /** The value of this as a double. */
+   @Override
    public double doubleValue() { return (double) value; }
    /** The value of this as a float. */
+   @Override
    public float floatValue() { return (float) value; }
    /** The value of this as a int. */
+   @Override
    public int intValue() { return /*(int)*/ value; }
    /** The value of this as a long. */
+   @Override
    public long longValue() { return (long) value; }
    /** The value of this as a short. */
+   @Override
    public short shortValue(){ return (short) value; }
    /** Test two UInt16s for equality. */
+   @Override
    public boolean equals(Object o)
    {
       return o instanceof UInt16 && ((UInt16) o).value == this.value;
    }
+   @Override
    public int hashCode()
    {
       return /*(int)*/ value;
@@ -67,11 +76,13 @@ public class UInt16 extends Number implements Comparable<UInt16>
    /** Compare two UInt16s. 
     * @return 0 if equal, -ve or +ve if they are different. 
     */
+   @Override
    public int compareTo(UInt16 other)
    {
       return /*(int)*/ (this.value - other.value);
    }
    /** The value of this as a string. */
+   @Override
    public String toString()
    {
       return ""+value;

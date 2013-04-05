@@ -152,14 +152,14 @@ public class DBusSignal extends Message
       try {
          DBusSignal s;
          Object[] args = Marshalling.deSerializeParameters(getParameters(), types, conn);
-         if (null == args) s = (DBusSignal) con.newInstance(getPath());
+         if (null == args) s = con.newInstance(getPath());
          else {
             Object[] params = new Object[args.length + 1];
             params[0] = getPath();
             System.arraycopy(args, 0, params, 1, args.length);
 
             if (Debug.debug) Debug.print(Debug.DEBUG, "Creating signal of type "+c+" with parameters "+Arrays.deepToString(params));
-            s = (DBusSignal) con.newInstance(params);
+            s = con.newInstance(params);
          }
          s.headers = headers;
          s.wiredata = wiredata;

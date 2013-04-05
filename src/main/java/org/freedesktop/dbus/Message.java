@@ -33,7 +33,7 @@ import org.freedesktop.dbus.exceptions.UnknownTypeCodeException;
  * Superclass of all messages which are sent over the Bus.
  * This class deals with all the marshalling to/from the wire format.
  */
-public class Message
+public abstract class Message
 {
    /** Defines constants representing the endianness of the message. */
    public static interface Endian {
@@ -173,6 +173,7 @@ public class Message
     */
    protected Message(byte endian, byte type, byte flags) throws DBusException
    {
+      super();
       wiredata = new byte[BUFFERINCREMENT][];
       headers = new HashMap<Byte, Object>();
       big = (Endian.BIG == endian);
@@ -191,6 +192,7 @@ public class Message
     */
    protected Message()
    {
+      super();
       wiredata = new byte[BUFFERINCREMENT][];
       headers = new HashMap<Byte, Object>();
       bytecounter = 0;

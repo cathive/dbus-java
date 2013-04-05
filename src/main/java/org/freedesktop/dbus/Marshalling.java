@@ -37,7 +37,7 @@ import cx.ath.matthew.debug.Debug;
 /**
  * Contains static methods for marshalling values.
  */
-public class Marshalling
+public final class Marshalling
 {
    private static Map<Type, String[]> typeCache = new HashMap<Type, String[]>();
    /**

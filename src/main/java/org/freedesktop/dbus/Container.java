@@ -13,6 +13,7 @@ package org.freedesktop.dbus;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.lang.reflect.Field;
 import java.lang.reflect.Type;
 
@@ -64,6 +65,7 @@ abstract class Container
       return parameters;
    }
    /** Returns this struct as a string. */
+   @Override
    public final String toString()
    {
       String s = getClass().getName()+"<";
@@ -75,6 +77,7 @@ abstract class Container
          s += o+", ";
       return s.replaceAll(", $", ">");
    }
+   @Override
    public final boolean equals(Object other)
    {
       if (other instanceof Container)  {
@@ -84,5 +87,9 @@ abstract class Container
          else return false;
       }
       else return false;
+   }
+   @Override
+   public final int hashCode() {
+       return Objects.hash(this.getParameters());
    }
 }

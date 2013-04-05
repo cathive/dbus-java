@@ -124,10 +124,11 @@ public class DBusMatchRule
       else
          throw new DBusException(_("Invalid type for match rule: ")+c);
    }
+   @Override
    public String toString()
    {
       String s = null;
-      if (null != type) s = null == s ? "type='"+type+"'" : s + ",type='"+type+"'";
+      if (null != type) s = "type='"+type+"'";
       if (null != member) s = null == s ? "member='"+member+"'" : s + ",member='"+member+"'";
       if (null != iface) s = null == s ? "interface='"+iface+"'" : s + ",interface='"+iface+"'";
       if (null != source) s = null == s ? "sender='"+source+"'" : s + ",sender='"+source+"'";
@@ -139,5 +140,5 @@ public class DBusMatchRule
    public String getMember() { return member; }
    public String getSource() { return source; }
    public String getObject() { return object; }
-   
+
 }

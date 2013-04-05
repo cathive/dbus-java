@@ -104,9 +104,9 @@ public class Debug
    private static long last = 0;
    private static int balen = 36;
    private static int bawidth = 80;
-   private static Class saveclass = null;
-   //TODO: 1.5 private static Map<Class<? extends Object>, FilterCommand> filterMap = new HashMap<Class<? extends Object>, FilterCommand>();
-   private static Map filterMap = new HashMap();
+   private static Class<?> saveclass = null;
+  private static Map<Class<? extends Object>, FilterCommand> filterMap = new HashMap<Class<? extends Object>, FilterCommand>();
+
    /**
      Set properties to configure debugging.
      Format of properties is class =&gt; level, e.g.
@@ -150,16 +150,7 @@ public class Debug
       prop = new Properties();
       prop.load(new FileInputStream(f));
    }
-   /** @deprecated In Java 1.5 calling class is automatically identified, no need to pass it in. */
-   //TODO: 1.5 @Deprecated()
-   public static boolean debugging(Class c, int loglevel)
-   {
-      if (debug) {
-         if (null == c) return true;
-         return debugging(c.getName(), loglevel);
-      }
-      return false;
-   }
+
    public static boolean debugging(String s, int loglevel)
    {
       if (debug) {
@@ -221,94 +212,7 @@ public class Debug
          else print(DEBUG, d);
       }
    }
-   /**
-      Log at DEBUG
-      @param o The object doing the logging
-      @param d The object to log 
-      @deprecated In Java 1.5 calling class is automatically identified, no need to pass it in.
-    */
-   //TODO: 1.5 @Deprecated()
-   public static void print(Object o, Object d)
-   {
-      if (debug) {
-         if (o instanceof Class)
-            saveclass = (Class) o;
-         else
-            saveclass = o.getClass();
-         print(d);
-      }
-   }
 
-   /**
-      Log an Object
-      @param o The object doing the logging
-      @param loglevel The level to log at (DEBUG, WARN, etc)
-      @param d The object to log with d.toString() 
-      @deprecated In Java 1.5 calling class is automatically identified, no need to pass it in.
-    */
-   //TODO: 1.5 @Deprecated()
-   public static void print(Object o, int loglevel, Object d)
-   {
-      if (debug) {
-         if (o instanceof Class)
-            saveclass = (Class) o;
-         else
-            saveclass = o.getClass();
-         print(loglevel, d);
-      }
-   }
-   /**
-      Log a String
-      @param o The object doing the logging
-      @param loglevel The level to log at (DEBUG, WARN, etc)
-      @param s The log message 
-      @deprecated In Java 1.5 calling class is automatically identified, no need to pass it in.
-    */
-   //TODO: 1.5 @Deprecated()
-   public static void print(Object o, int loglevel, String s)
-   {
-      if (debug) {
-         if (o instanceof Class)
-            saveclass = (Class) o;
-         else
-            saveclass = o.getClass();
-         print(loglevel, s);
-      }
-   }
-   /**
-      Log a Throwable
-      @param o The object doing the logging
-      @param loglevel The level to log at (DEBUG, WARN, etc)
-      @param t The throwable to log with .toString and .printStackTrace 
-      @deprecated In Java 1.5 calling class is automatically identified, no need to pass it in.
-    */
-   //TODO: 1.5 @Deprecated()
-   public static void print(Object o, int loglevel, Throwable t)
-   {
-      if (debug) {
-         if (o instanceof Class)
-            saveclass = (Class) o;
-         else
-            saveclass = o.getClass();
-         print(loglevel, t);
-      }
-   }
-
-   /**
-     Log a Throwable
-     @param c The class doing the logging
-     @param loglevel The level to log at (DEBUG, WARN, etc)
-     @param t The throwable to log with .toString and .printStackTrace 
-     @deprecated In Java 1.5 calling class is automatically identified, no need to pass it in.
-    */
-   //TODO: 1.5 @Deprecated()
-   public static void print(Class c, int loglevel, Throwable t)
-   {
-      if (debug) {
-         saveclass = c;
-         print(loglevel, t);
-      }
-   }
    /**
      Log a Throwable
      @param loglevel The level to log at (DEBUG, WARN, etc)
@@ -380,36 +284,7 @@ public class Debug
       if (debug)
          print(loglevel, (Object) s);
    }
-   /**
-     Log an Object
-     @param c The class doing the logging
-     @param loglevel The level to log at (DEBUG, WARN, etc)
-     @param d The object to log with d.toString() 
-     @deprecated In Java 1.5 calling class is automatically identified, no need to pass it in.
-    */
-   //TODO: 1.5 @Deprecated()
-   public static void print(Class c, int loglevel, Object d)
-   {
-      if (debug) {
-         saveclass = c;
-         print(loglevel, d);
-      }
-   }
-   /**
-     Log a String
-     @param c The class doing the logging
-     @param loglevel The level to log at (DEBUG, WARN, etc)
-     @param s The log message 
-     @deprecated In Java 1.5 calling class is automatically identified, no need to pass it in.
-    */
-   //TODO: 1.5 @Deprecated()
-   public static void print(Class c, int loglevel, String s)
-   {
-      if (debug) {
-         saveclass = c;
-         print(loglevel, s);
-      }
-   }
+
    private static String[] getTraceElements()
    {
       String[] data = new String[] { "", "", "" };
@@ -456,39 +331,6 @@ public class Debug
       }
    }
 
-   /**
-     Log a Map
-     @param o The object doing the logging
-     @param loglevel The level to log at (DEBUG, WARN, etc)
-     @param m The Map to print out 
-     @deprecated In Java 1.5 calling class is automatically identified, no need to pass it in.
-    */
-   //TODO: 1.5 @Deprecated()
-   public static void printMap(Object o, int loglevel, Map m)
-   {
-      if (debug) {
-         if (o instanceof Class)
-            saveclass = (Class) o;
-         else
-            saveclass = o.getClass();
-         printMap(loglevel, m);
-      }
-   }
-   /**
-     Log a Map
-     @param c The class doing the logging
-     @param loglevel The level to log at (DEBUG, WARN, etc)
-     @param m The Map to print out 
-     @deprecated In Java 1.5 calling class is automatically identified, no need to pass it in.
-    */
-   //TODO: 1.5 @Deprecated()
-   public static void printMap(Class c, int loglevel, Map m)
-   {
-      if (debug) {
-         saveclass = c;
-         printMap(loglevel, m);
-      }
-   }
    /**
      Log a Map at DEBUG log level
      @param m The Map to print out 

@@ -29,14 +29,16 @@ package cx.ath.matthew.unix;
 import java.io.InputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-
-import cx.ath.matthew.debug.Debug;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Represents a UnixSocket.
  */
 public class UnixSocket
 {
+   private static final Logger LOG = Logger.getLogger(UnixSocket.class.getName());
+    
    static { System.loadLibrary("unix-java"); }
    private native void native_set_pass_cred(int sock, boolean passcred) throws IOException;
    private native int native_connect(String address, boolean abs) throws IOException;
@@ -111,18 +113,20 @@ public class UnixSocket
    {
       connect(new UnixSocketAddress(address));
    }
-   public void finalize()
+   @Override
+   public void finalize() throws Throwable
    {
       try { 
          close();
       } catch (IOException IOe) {}
+      super.finalize();
    }
    /**
     * Closes the connection.
     */
    public synchronized void close() throws IOException
    {
-      if (Debug.debug) Debug.print(Debug.INFO, "Closing socket");
+      if (LOG.isLoggable(Level.FINE)) LOG.log(Level.FINE, "Closing socket");
       native_close(sock);
       sock = 0;
       this.closed = true;

@@ -18,7 +18,7 @@ import cx.ath.matthew.debug.Debug;
 import cx.ath.matthew.unix.USOutputStream;
 import cx.ath.matthew.utils.Hexdump;
 
-public class MessageWriter
+public final class MessageWriter
 {
    private OutputStream out;
 	private boolean isunix;

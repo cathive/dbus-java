@@ -21,10 +21,10 @@ import java.util.List;
 
 import cx.ath.matthew.debug.Debug;
 
-class ArrayFrob
+final class ArrayFrob
 {
-   static Hashtable<Class<? extends Object>, Class<? extends Object>> primitiveToWrapper = new Hashtable<Class<? extends Object>, Class<? extends Object>>();
-   static Hashtable<Class<? extends Object>, Class<? extends Object>> wrapperToPrimitive = new Hashtable<Class<? extends Object>, Class<? extends Object>>();
+   static final Hashtable<Class<? extends Object>, Class<? extends Object>> primitiveToWrapper = new Hashtable<Class<? extends Object>, Class<? extends Object>>();
+   static final Hashtable<Class<? extends Object>, Class<? extends Object>> wrapperToPrimitive = new Hashtable<Class<? extends Object>, Class<? extends Object>>();
    static {
       primitiveToWrapper.put( Boolean.TYPE, Boolean.class );
       primitiveToWrapper.put( Byte.TYPE, Byte.class );

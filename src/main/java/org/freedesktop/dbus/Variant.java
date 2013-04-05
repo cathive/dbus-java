@@ -14,6 +14,7 @@ import static org.freedesktop.dbus.Gettext._;
 
 import java.lang.reflect.Type;
 import java.text.MessageFormat;
+import java.util.Objects;
 import java.util.Vector;
 import org.freedesktop.dbus.exceptions.DBusException;
 
@@ -25,7 +26,7 @@ import cx.ath.matthew.debug.Debug;
  * This will wrap another value whose type is determined at runtime.
  * The Variant may be parameterized to restrict the types it may accept.
  */
-public class Variant<T>
+public final class Variant<T>
 {
    private final T o;
    private final Type type;
@@ -100,13 +101,18 @@ public class Variant<T>
    /** Return the dbus signature of the wrapped value. */
    public String getSig() { return sig; }
    /** Format the Variant as a string. */
+   @Override
    public String toString() { return "["+o+"]"; }
    /** Compare this Variant with another by comparing contents */
-   @SuppressWarnings("unchecked")
+   @Override
    public boolean equals(Object other)
    {
       if (null == other) return false;
       if (!(other instanceof Variant)) return false;
-      return this.o.equals(((Variant<? extends Object>)other).o);
+      return this.o.equals(((Variant<?>) other).o);
+   }
+   @Override
+   public int hashCode() {
+       return Objects.hash(this.o);
    }
 }

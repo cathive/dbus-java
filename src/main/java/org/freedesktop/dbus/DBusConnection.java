@@ -65,6 +65,7 @@ public class DBusConnection extends AbstractConnection
 				if (EXCEPTION_DEBUG && Debug.debug) Debug.print(Debug.ERR, DBe);
 			}
 		}
+		@Override
 		public void handle(DBus.NameOwnerChanged noc)
 		{
 			if (Debug.debug)
@@ -72,6 +73,7 @@ public class DBusConnection extends AbstractConnection
 			if ("".equals(noc.new_owner) && addresses.contains(noc.name)) 
 				remove(noc.name);
 		}
+		@Override
 		public boolean add(String address)
 		{
 			if (Debug.debug)
@@ -80,44 +82,53 @@ public class DBusConnection extends AbstractConnection
 				return addresses.add(address);
 			}
 		}
+		@Override
 		public boolean addAll(Collection<? extends String> addresses)
 		{
 			synchronized (this.addresses) {
 				return this.addresses.addAll(addresses);
 			}
 		}
+		@Override
 		public void clear()
 		{
 			synchronized (addresses) {
 				addresses.clear();
 			}
 		}
+		@Override
 		public boolean contains(Object o)
 		{
 			return addresses.contains(o);
 		}
+		@Override
 		public boolean containsAll(Collection<?> os)
 		{
 			return addresses.containsAll(os);
 		}
+		@Override
 		public boolean equals(Object o)
 		{
 			if (o instanceof PeerSet)
 				return ((PeerSet) o).addresses.equals(addresses);
 			else return false;
 		}
+		@Override
 		public int hashCode()
 		{
 			return addresses.hashCode();
 		}
+		@Override
 		public boolean isEmpty()
 		{
 			return addresses.isEmpty();
 		}
+		@Override
 		public Iterator<String> iterator()
 		{
 			return addresses.iterator();
 		}
+		@Override
 		public boolean remove(Object o)
 		{
 			if (Debug.debug)
@@ -126,28 +137,33 @@ public class DBusConnection extends AbstractConnection
 				return addresses.remove(o);
 			}
 		}
+		@Override
 		public boolean removeAll(Collection<?> os)
 		{
 			synchronized(addresses) {
 				return addresses.removeAll(os);
 			}
 		}
+		@Override
 		public boolean retainAll(Collection<?> os)
 		{
 			synchronized(addresses) {
 				return addresses.retainAll(os);
 			}
 		}
+		@Override
 		public int size()
 		{
 			return addresses.size();
 		}
+		@Override
 		public Object[] toArray()
 		{
 			synchronized(addresses) {
 				return addresses.toArray();
 			}
 		}
+		@Override
 		public <T> T[] toArray(T[] a)
 		{
 			synchronized(addresses) {
@@ -157,6 +173,7 @@ public class DBusConnection extends AbstractConnection
 	}
    private class _sighandler implements DBusSigHandler<DBusSignal>
    {
+      @Override
       public void handle(DBusSignal s)
       {
          if (s instanceof org.freedesktop.DBus.Local.Disconnected) {
@@ -661,6 +678,7 @@ public class DBusConnection extends AbstractConnection
          throw new DBusException(_("Invalid object path: ")+objectpath);
       removeSigHandler(new DBusMatchRule(type, source, objectpath), handler);
    }
+   @Override
    protected <T extends DBusSignal> void removeSigHandler(DBusMatchRule rule, DBusSigHandler<T> handler) throws DBusException
    {
       
@@ -692,7 +710,6 @@ public class DBusConnection extends AbstractConnection
     * @throws DBusException If listening for the signal on the bus failed.
     * @throws ClassCastException If type is not a sub-type of DBusSignal.
     */
-   @SuppressWarnings("unchecked")
    public <T extends DBusSignal> void addSigHandler(Class<T> type, String source, DBusSigHandler<T> handler) throws DBusException
    {
       if (!DBusSignal.class.isAssignableFrom(type)) throw new ClassCastException(_("Not A DBus Signal"));
@@ -711,7 +728,6 @@ public class DBusConnection extends AbstractConnection
     * @throws DBusException If listening for the signal on the bus failed.
     * @throws ClassCastException If type is not a sub-type of DBusSignal.
     */
-   @SuppressWarnings("unchecked")
    public <T extends DBusSignal> void addSigHandler(Class<T> type, String source, DBusInterface object,  DBusSigHandler<T> handler) throws DBusException
    {
       if (!DBusSignal.class.isAssignableFrom(type)) throw new ClassCastException(_("Not A DBus Signal"));
@@ -723,6 +739,7 @@ public class DBusConnection extends AbstractConnection
          throw new DBusException(_("Invalid object path: ")+objectpath);
       addSigHandler(new DBusMatchRule(type, source, objectpath), (DBusSigHandler<? extends DBusSignal>) handler);
    }
+   @Override
    protected <T extends DBusSignal> void addSigHandler(DBusMatchRule rule, DBusSigHandler<T> handler) throws DBusException
    {
       try {
@@ -747,6 +764,7 @@ public class DBusConnection extends AbstractConnection
     * This only disconnects when the last reference to the bus has disconnect called on it
     * or has been destroyed.
     */
+   @Override
    public void disconnect()
    {
       synchronized (conn) {

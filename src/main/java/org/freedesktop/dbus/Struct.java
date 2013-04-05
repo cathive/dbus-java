@@ -19,5 +19,8 @@ package org.freedesktop.dbus;
  */
 public abstract class Struct extends Container
 {
-   public Struct() {}
+   public Struct() {
+       super();
+   }
+
 }

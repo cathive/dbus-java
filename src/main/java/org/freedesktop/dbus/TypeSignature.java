@@ -13,7 +13,7 @@ package org.freedesktop.dbus;
 import java.lang.reflect.Type;
 import org.freedesktop.dbus.exceptions.DBusException;
 
-public class TypeSignature 
+public final class TypeSignature 
 {
    String sig;
    public TypeSignature(String sig)

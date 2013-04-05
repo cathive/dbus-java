@@ -16,7 +16,7 @@ import java.lang.ref.WeakReference;
  * An alternative to a WeakReference when you don't want
  * that behaviour.
  */
-public class StrongReference<T> extends WeakReference<T>
+public final class StrongReference<T> extends WeakReference<T>
 {
    T referant;
    public StrongReference(T referant)
@@ -24,18 +24,22 @@ public class StrongReference<T> extends WeakReference<T>
       super(referant);
       this.referant = referant;
    }
+   @Override
    public void clear()
    {
       referant = null;
    }
+   @Override
    public boolean enqueue()
    {
       return false;
    }
+   @Override
    public T get()
    {
       return referant;
    }
+   @Override
    public boolean isEnqueued()
    {
       return false;

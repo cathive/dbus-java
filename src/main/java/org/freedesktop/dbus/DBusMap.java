@@ -32,40 +32,48 @@ class DBusMap<K, V> implements Map<K, V>
       {
          this.entry = i;
       }
+      @Override
       public boolean  equals(Object o)
       {
          if (null == o) return false;
          if (!(o instanceof DBusMap.Entry)) return false;
-         return this.entry == ((Entry) o).entry;
+         return this.entry == (DBusMap.Entry.class.cast(o)).entry;
       }
       @SuppressWarnings("unchecked")
+      @Override
       public K getKey()
       {
          return (K) entries[entry][0];
       }
       @SuppressWarnings("unchecked")
+      @Override
       public V getValue()
       {
          return (V) entries[entry][1];
       }
+      @Override
       public int hashCode()
       {
          return entries[entry][0].hashCode();
       }
+      @Override
       public V setValue(V value)
       {
          throw new UnsupportedOperationException();
       }
+      @Override
       public int compareTo(Entry e)
       {
          return entry - e.entry;
       }
    }
 
+   @Override
    public void clear()
    {
       throw new UnsupportedOperationException();
    }
+   @Override
    public boolean containsKey(Object key)
    {
       for (int i = 0; i < entries.length; i++)
@@ -73,6 +81,7 @@ class DBusMap<K, V> implements Map<K, V>
             return true;
       return false;
    }
+   @Override
    public boolean containsValue(Object value)
    {
       for (int i = 0; i < entries.length; i++)
@@ -80,6 +89,7 @@ class DBusMap<K, V> implements Map<K, V>
             return true;
       return false;
    }
+   @Override
    public Set<Map.Entry<K,V>> entrySet()
    {
       Set<Map.Entry<K,V>> s = new TreeSet<Map.Entry<K,V>>();
@@ -88,6 +98,7 @@ class DBusMap<K, V> implements Map<K, V>
       return s;
    }
    @SuppressWarnings("unchecked")
+   @Override
    public V get(Object key)
    {
       for (int i = 0; i < entries.length; i++)
@@ -95,11 +106,13 @@ class DBusMap<K, V> implements Map<K, V>
             return (V) entries[i][1];
       return null;
    }
+   @Override
    public boolean isEmpty() 
    { 
       return entries.length == 0;
    }
    @SuppressWarnings("unchecked")
+   @Override
    public Set<K> keySet()
    {
       Set<K> s = new TreeSet<K>();
@@ -107,23 +120,28 @@ class DBusMap<K, V> implements Map<K, V>
          s.add((K) entry[0]);
       return s;
    }
+   @Override
    public V put(K key, V value)
    {
       throw new UnsupportedOperationException();
    }
+   @Override
    public void putAll(Map<? extends K,? extends V> t)
    {
       throw new UnsupportedOperationException();
    }
+   @Override
    public V remove(Object key)
    {
       throw new UnsupportedOperationException();
    }
+   @Override
    public int size()
    {
       return entries.length;
    }
    @SuppressWarnings("unchecked")
+   @Override
    public Collection<V> values()
    {
       List<V> l = new Vector<V>();
@@ -131,17 +149,19 @@ class DBusMap<K, V> implements Map<K, V>
          l.add((V) entry[1]);
       return l;
    }
-   public int hashCode() 
+   @Override
+   public int hashCode()
    {
       return Arrays.deepHashCode(entries);
    }
-   @SuppressWarnings("unchecked")
+   @Override
    public boolean equals(Object o) 
    {
       if (null == o) return false;
       if (!(o instanceof Map)) return false;
-      return ((Map<K,V>) o).entrySet().equals(entrySet());
+      return (Map.class.cast(o)).entrySet().equals(entrySet());
    }
+   @Override
    public String toString()
    {
       String s = "{ ";

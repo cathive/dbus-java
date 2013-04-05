@@ -31,7 +31,7 @@ import cx.ath.matthew.debug.Debug;
  * Signal Handlers and method calls from remote objects are run in their own threads, you MUST handle the concurrency issues.
  * </p>
  */
-public class DirectConnection extends AbstractConnection
+public final class DirectConnection extends AbstractConnection
 {
    /**
     * Create a direct connection to another application.
@@ -218,6 +218,7 @@ public class DirectConnection extends AbstractConnection
       importedObjects.put(i, ro);
       return i;
    }
+   @Override
    protected <T extends DBusSignal> void removeSigHandler(DBusMatchRule rule, DBusSigHandler<T> handler) throws DBusException
    {
       SignalTuple key = new SignalTuple(rule.getInterface(), rule.getMember(), rule.getObject(), rule.getSource());
@@ -231,6 +232,7 @@ public class DirectConnection extends AbstractConnection
          } 
       }
    }
+   @Override
    protected <T extends DBusSignal> void addSigHandler(DBusMatchRule rule, DBusSigHandler<T> handler) throws DBusException
    {
       SignalTuple key = new SignalTuple(rule.getInterface(), rule.getMember(), rule.getObject(), rule.getSource());
@@ -244,6 +246,7 @@ public class DirectConnection extends AbstractConnection
             v.add(handler);
       }
    }
+   @Override
    DBusInterface getExportedObject(String source, String path) throws DBusException
    {
       return getExportedObject(path);

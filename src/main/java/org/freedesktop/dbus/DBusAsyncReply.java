@@ -100,6 +100,7 @@ public class DBusAsyncReply<ReturnType>
       else throw new NoReply(_("Async call has not had a reply"));
    }
 
+   @Override
    public String toString()
    {
       return _("Waiting for: ")+mc;

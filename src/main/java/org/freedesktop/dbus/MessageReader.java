@@ -26,7 +26,7 @@ import org.freedesktop.dbus.exceptions.DBusException;
 import org.freedesktop.dbus.exceptions.MessageTypeException;
 import org.freedesktop.dbus.exceptions.MessageProtocolVersionException;
 
-public class MessageReader
+public final class MessageReader
 {
    private InputStream in;
    private byte[] buf = null;

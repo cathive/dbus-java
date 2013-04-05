@@ -82,6 +82,7 @@ public abstract class AbstractConnection
       {
          setName("DBusConnection");
       }
+      @Override
       public void run()
       {
          try {
@@ -109,7 +110,7 @@ public abstract class AbstractConnection
                      m = null;
                   }
                } catch (Exception e) { 
-                  if (EXCEPTION_DEBUG && Debug.debug) Debug.print(Debug.ERR, e);            
+                  if (EXCEPTION_DEBUG && Debug.debug) Debug.print(Debug.ERR, e);
                   if (e instanceof FatalException) {
                      disconnect();
                   }

@@ -18,7 +18,7 @@ import java.util.List;
  * The type of a list.
  * Should be used whenever you need a Type variable for a list.
  */
-public class DBusListType implements ParameterizedType
+public final class DBusListType implements ParameterizedType
 {
    private Type v;
    /**
@@ -27,16 +27,20 @@ public class DBusListType implements ParameterizedType
     */
    public DBusListType(Type v)
    {
+      super();
       this.v = v;
    }
+   @Override
    public Type[] getActualTypeArguments()
    {
       return new Type[] { v };
    }
+   @Override
    public Type getRawType()
    {
       return List.class;
    }
+   @Override
    public Type getOwnerType()
    {
       return null;

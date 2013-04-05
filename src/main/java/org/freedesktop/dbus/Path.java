@@ -15,25 +15,30 @@ public class Path implements Comparable<Path>
    protected String path;
    public Path(String path)
    {
+      super();
       this.path = path;
    }
-   public String getPath()
+   public final String getPath()
    {
       return path;
    }
+   @Override
    public String toString()
    {
       return path;
    }
-   public boolean equals(Object other)
+   @Override
+   public final boolean equals(Object other)
    {
-      return (other instanceof Path) && path.equals(((Path) other).path);
+      return other != null && other instanceof Path && path.equals(((Path) other).path);
    }
-   public int hashCode()
+   @Override
+   public final int hashCode()
    {
       return path.hashCode();
    }
-   public int compareTo(Path that)
+   @Override
+   public final int compareTo(Path that)
    {
       return path.compareTo(that.path);
    }

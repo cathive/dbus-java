@@ -11,6 +11,7 @@
 package org.freedesktop.dbus;
 
 import static org.freedesktop.dbus.Gettext._;
+import static org.freedesktop.dbus.AbstractConnection.MAX_NAME_LENGTH;
 
 import java.lang.ref.Reference;
 import java.lang.ref.WeakReference;
@@ -31,12 +32,11 @@ import org.freedesktop.dbus.exceptions.DBusExecutionException;
 
 class ExportedObject
 {
-   @SuppressWarnings("unchecked")
    private String getAnnotations(AnnotatedElement c)
    {
       String ans = "";
       for (Annotation a: c.getDeclaredAnnotations()) {
-         Class t = a.annotationType();
+         Class<? extends Annotation> t = a.annotationType();
          String value = "";
          try {
             Method m = t.getMethod("value");
@@ -49,16 +49,15 @@ class ExportedObject
       }
       return ans;
    }
-   @SuppressWarnings("unchecked")
-   private Map<MethodTuple,Method> getExportedMethods(Class c) throws DBusException
+   private Map<MethodTuple,Method> getExportedMethods(Class<?> c) throws DBusException
    {
       if (DBusInterface.class.equals(c)) return new HashMap<MethodTuple,Method>();
       Map<MethodTuple,Method> m = new HashMap<MethodTuple,Method>();
-      for (Class i: c.getInterfaces())
+      for (Class<?> i: c.getInterfaces())
          if (DBusInterface.class.equals(i)) {
             // add this class's public methods
             if (null != c.getAnnotation(DBusInterfaceName.class)) {
-               String name = ((DBusInterfaceName) c.getAnnotation(DBusInterfaceName.class)).value();
+               String name = c.getAnnotation(DBusInterfaceName.class).value();
                introspectiondata += " <interface name=\""+name+"\">\n";
                DBusSignal.addInterfaceMap(c.getName(), name);
             } else {
@@ -66,7 +65,7 @@ class ExportedObject
                // valid D-Bus interface name
                if (c.getName().equals(c.getSimpleName()))
                   throw new DBusException(_("DBusInterfaces cannot be declared outside a package"));
-               if (c.getName().length() > DBusConnection.MAX_NAME_LENGTH) 
+               if (c.getName().length() > MAX_NAME_LENGTH) 
                   throw new DBusException(_("Introspected interface name exceeds 255 characters. Cannot export objects of type ")+c.getName());
                else
                   introspectiondata += " <interface name=\""+AbstractConnection.dollar_pattern.matcher(c.getName()).replaceAll(".")+"\">\n";
@@ -80,11 +79,11 @@ class ExportedObject
                      name = meth.getAnnotation(DBusMemberName.class).value();
                   else
                      name = meth.getName();
-                  if (name.length() > DBusConnection.MAX_NAME_LENGTH) 
+                  if (name.length() > MAX_NAME_LENGTH) 
                      throw new DBusException(_("Introspected method name exceeds 255 characters. Cannot export objects with method ")+name);
                   introspectiondata += "  <method name=\""+name+"\" >\n";
                   introspectiondata += getAnnotations(meth);
-                  for (Class ex: meth.getExceptionTypes())
+                  for (Class<?> ex: meth.getExceptionTypes())
                      if (DBusExecutionException.class.isAssignableFrom(ex))
                         introspectiondata +=
                            "   <annotation name=\"org.freedesktop.DBus.Method.Error\" value=\""+AbstractConnection.dollar_pattern.matcher(ex.getName()).replaceAll(".")+"\" />\n";
@@ -94,7 +93,7 @@ class ExportedObject
                         ms += s;
                      }
                   if (!Void.TYPE.equals(meth.getGenericReturnType())) {
-                     if (Tuple.class.isAssignableFrom((Class) meth.getReturnType())) {
+                     if (Tuple.class.isAssignableFrom(meth.getReturnType())) {
                         ParameterizedType tc = (ParameterizedType) meth.getGenericReturnType();
                         Type[] ts = tc.getActualTypeArguments();
 
@@ -111,18 +110,18 @@ class ExportedObject
                   introspectiondata += "  </method>\n";
                   m.put(new MethodTuple(name, ms), meth);
                }
-            for (Class sig: c.getDeclaredClasses()) 
+            for (Class<?> sig: c.getDeclaredClasses()) 
                if (DBusSignal.class.isAssignableFrom(sig)) {
                   String name;
                   if (sig.isAnnotationPresent(DBusMemberName.class)) {
-                     name = ((DBusMemberName) sig.getAnnotation(DBusMemberName.class)).value();
+                     name = (sig.getAnnotation(DBusMemberName.class)).value();
                      DBusSignal.addSignalMap(sig.getSimpleName(), name);
                   } else
                      name = sig.getSimpleName();
-                  if (name.length() > DBusConnection.MAX_NAME_LENGTH) 
+                  if (name.length() > MAX_NAME_LENGTH) 
                      throw new DBusException(_("Introspected signal name exceeds 255 characters. Cannot export objects with signals of type ")+name);
                   introspectiondata += "  <signal name=\""+name+"\">\n";
-                  Constructor con = sig.getConstructors()[0];
+                  Constructor<?> con = sig.getConstructors()[0];
                   Type[] ts = con.getGenericParameterTypes();
                   for (int j = 1; j < ts.length; j++)
                      for (String s: Marshalling.getDBusType(ts[j]))

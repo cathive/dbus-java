@@ -10,7 +10,7 @@
 */
 package org.freedesktop.dbus;
 
-class ObjectPath extends Path
+final class ObjectPath extends Path
 {
    public String source;
 //   public DBusConnection conn;

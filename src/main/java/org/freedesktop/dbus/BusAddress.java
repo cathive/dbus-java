@@ -37,5 +37,6 @@ public class BusAddress
    }
    public String getType() { return type; }
    public String getParameter(String key) { return parameters.get(key); }
+   @Override
    public String toString() { return type+": "+parameters; }
 }

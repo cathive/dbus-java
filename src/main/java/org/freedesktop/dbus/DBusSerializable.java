@@ -35,4 +35,3 @@ public interface DBusSerializable
 {
    public Object[] serialize() throws DBusException;
 }
-            

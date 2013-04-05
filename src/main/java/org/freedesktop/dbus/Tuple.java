@@ -20,5 +20,7 @@ package org.freedesktop.dbus;
  */
 public abstract class Tuple extends Container
 {
-   public Tuple() {}
+   public Tuple() {
+       super();
+   }
 }

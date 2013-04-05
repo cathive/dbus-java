@@ -38,7 +38,7 @@ import cx.ath.matthew.unix.UnixSocketAddress;
 import cx.ath.matthew.utils.Hexdump;
 import cx.ath.matthew.debug.Debug;
 
-public class Transport
+public final class Transport
 {
    public static class SASL
    {
@@ -99,6 +99,7 @@ public class Transport
          public String getData() { return data; }
          public String getResponse() { return response; }
          public void setResponse(String s) { response = s; }
+         @Override
          public String toString() 
          {
             return "Command("+command+", "+mechs+", "+data+", "+null+")";

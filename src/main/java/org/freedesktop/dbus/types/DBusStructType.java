@@ -18,7 +18,7 @@ import org.freedesktop.dbus.Struct;
  * The type of a struct.
  * Should be used whenever you need a Type variable for a struct.
  */
-public class DBusStructType implements ParameterizedType
+public final class DBusStructType implements ParameterizedType
 {
    private Type[] contents;
    /**
@@ -27,16 +27,20 @@ public class DBusStructType implements ParameterizedType
     */
    public DBusStructType(Type... contents)
    {
+      super();
       this.contents = contents;
    }
+   @Override
    public Type[] getActualTypeArguments()
    {
       return contents;
    }
+   @Override
    public Type getRawType()
    {
       return Struct.class;
    }
+   @Override
    public Type getOwnerType()
    {
       return null;

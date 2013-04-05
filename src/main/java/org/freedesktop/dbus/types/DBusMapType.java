@@ -18,7 +18,7 @@ import java.util.Map;
  * The type of a map.
  * Should be used whenever you need a Type variable for a map.
  */
-public class DBusMapType implements ParameterizedType
+public final class DBusMapType implements ParameterizedType
 {
    private Type k;
    private Type v;
@@ -29,17 +29,21 @@ public class DBusMapType implements ParameterizedType
     */
    public DBusMapType(Type k, Type v)
    {
+      super();
       this.k = k;
       this.v = v;
    }
+   @Override
    public Type[] getActualTypeArguments()
    {
       return new Type[] { k, v };
    }
+   @Override
    public Type getRawType()
    {
       return Map.class;
    }
+   @Override
    public Type getOwnerType()
    {
       return null;

@@ -16,7 +16,7 @@ import java.util.regex.Pattern;
 
 /**
  * Keeps track of the exported objects for introspection data */
-class ObjectTree 
+final class ObjectTree 
 {
    class TreeNode
    {
@@ -27,10 +27,12 @@ class ObjectTree
       TreeNode down;
       public TreeNode(String name)
       {
+         super();
          this.name = name;
       }
       public TreeNode(String name, ExportedObject object, String data)
       {
+         super();
          this.name = name;
          this.object = object;
          this.data = data;

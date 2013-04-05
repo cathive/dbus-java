@@ -27,7 +27,7 @@ import org.freedesktop.dbus.exceptions.NotConnected;
 
 import cx.ath.matthew.debug.Debug;
 
-class RemoteInvocationHandler implements InvocationHandler
+final class RemoteInvocationHandler implements InvocationHandler
 {
    public static final int CALL_TYPE_SYNC = 0;
    public static final int CALL_TYPE_ASYNC = 1;
@@ -147,9 +147,11 @@ class RemoteInvocationHandler implements InvocationHandler
    RemoteObject remote;
    public RemoteInvocationHandler(AbstractConnection conn, RemoteObject remote)
    {
+      super();
       this.remote = remote;
       this.conn = conn;
    }
+   @Override
    public Object invoke(Object proxy, Method method, Object[] args) throws Throwable
    {
       if (method.getName().equals("isRemote")) return true;

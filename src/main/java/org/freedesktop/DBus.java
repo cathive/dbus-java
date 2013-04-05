@@ -32,9 +32,9 @@ import org.freedesktop.dbus.exceptions.DBusExecutionException;
 
 public interface DBus extends DBusInterface
 {
-   public static final int DBUS_NAME_FLAG_ALLOW_REPLACEMENT = 0x01;
-   public static final int DBUS_NAME_FLAG_REPLACE_EXISTING = 0x02;
-   public static final int DBUS_NAME_FLAG_DO_NOT_QUEUE = 0x04;
+   public static final int DBUS_NAME_FLAG_ALLOW_REPLACEMENT = 0b0001;
+   public static final int DBUS_NAME_FLAG_REPLACE_EXISTING = 0b0010;
+   public static final int DBUS_NAME_FLAG_DO_NOT_QUEUE = 0b0100;
    public static final int DBUS_REQUEST_NAME_REPLY_PRIMARY_OWNER = 1;
    public static final int DBUS_REQUEST_NAME_REPLY_IN_QUEUE = 2;
    public static final int DBUS_REQUEST_NAME_REPLY_EXISTS = 3;
@@ -86,7 +86,7 @@ public interface DBus extends DBusInterface
        * @param interface_name The interface the properties is associated with.
        * @return The properties mapped to their values.
        */
-      public Map<String, Variant> GetAll (String interface_name);
+      public <A> Map<String, Variant<A>> GetAll (String interface_name);
    }
    /**
     * Messages generated locally in the application.

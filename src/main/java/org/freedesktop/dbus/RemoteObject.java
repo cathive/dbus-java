@@ -10,7 +10,9 @@
 */
 package org.freedesktop.dbus;
 
-class RemoteObject
+import java.util.Objects;
+
+final class RemoteObject
 {
    String busname;
    String objectpath;
@@ -23,23 +25,16 @@ class RemoteObject
       this.iface = iface;
       this.autostart = autostart;
    }
+   @Override
    public boolean equals(Object o)
    {
-      if (!(o instanceof RemoteObject)) return false;
-      RemoteObject them = (RemoteObject) o;
-
-      if (!them.objectpath.equals(this.objectpath)) return false;
-      
-      if (null == this.busname && null != them.busname) return false;
-      if (null != this.busname && null == them.busname) return false;
-      if (null != them.busname && !them.busname.equals(this.busname)) return false;
-      
-      if (null == this.iface && null != them.iface) return false;
-      if (null != this.iface && null == them.iface) return false;
-      if (null != them.iface && !them.iface.equals(this.iface)) return false;
-      
-      return true;
+      if (o == null || !(o instanceof RemoteObject)) return false;
+      final RemoteObject that = (RemoteObject) o;
+      return Objects.equals(this.objectpath, that.objectpath)
+          && Objects.equals(this.busname, that.busname)
+          && Objects.equals(this.iface, that.iface);
    }
+   @Override
    public int hashCode()
    {
       return (null == busname ? 0 : busname.hashCode()) + objectpath.hashCode() +
@@ -49,6 +44,7 @@ class RemoteObject
    public String getBusName() { return busname; }
    public String getObjectPath() { return objectpath; }
    public Class<? extends DBusInterface>  getInterface() { return iface; }
+   @Override
    public String toString()
    {
       return busname+":"+objectpath+":"+iface;

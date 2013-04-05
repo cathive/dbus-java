@@ -1,0 +1,19 @@
+Java classes
+*.class
+
+# Output directories
+bin/
+build/
+target/
+
+# Eclipse
+.project
+.classpath
+.settings/
+
+# Windows specific stuff
+[Dd]esktop.ini
+[Tt]humbs.db
+
+# OSX specific stuff
+.DS_Store/
